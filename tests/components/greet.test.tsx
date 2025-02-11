@@ -7,6 +7,7 @@ describe("Greet", () => {
   it("should render hello when name is present", () => {
     render(<Greet name="Piumika" />);
     const heading = screen.getByRole("heading");
-    expect(heading).toBeInTheDocument();
+    expect(heading).toBeInTheDocument(); // first assertion to check theres a heading
+    expect(heading).toHaveTextContent(/piumika/i); // second assertion to test the content
   });
 });
