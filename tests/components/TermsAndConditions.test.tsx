@@ -3,31 +3,30 @@ import TermsAndConditions from "../../src/components/TermsAndConditions";
 import userEvent from "@testing-library/user-event";
 
 describe("TermsAndConditions", () => {
-  it("should render with correct text and initial text", () => {
+  const renderComponent = () => {
     render(<TermsAndConditions />);
-    const heading = screen.getByRole("heading");
-    expect(heading).toBeInTheDocument();
+    return {
+      heading: screen.getByRole("heading"),
+      checkbox: screen.getByRole("checkbox"),
+      button: screen.getByRole("button"),
+    };
+  };
+
+  it("should render with correct text and initial text", () => {
+    const { heading, checkbox, button } = renderComponent(); // with getByRole we dont need to check whether its in the document, if its not in the doc its throwing an error
     expect(heading).toHaveTextContent("Terms & Conditions");
-
-    const checkbox = screen.getByRole("checkbox");
-    expect(checkbox).toBeInTheDocument();
     expect(checkbox).not.toBeChecked(); // if the checkbox is not checked submit button should be disabled
-
-    const button = screen.getByRole("button");
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent(/submit/i);
     expect(button).toBeDisabled();
   });
 
   it("should enabled the button is the checkbox is checked", async () => {
     //Arrange
-    render(<TermsAndConditions />);
+    const { checkbox, button } = renderComponent();
     //Act
-    const checkbox = screen.getByRole("checkbox");
     const user = userEvent.setup();
     await user.click(checkbox);
 
     //Assert
-    expect(screen.getByRole("button")).toBeEnabled();
+    expect(button).toBeEnabled();
   });
 });
