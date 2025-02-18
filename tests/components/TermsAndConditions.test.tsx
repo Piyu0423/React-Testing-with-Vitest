@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 
 describe("TermsAndConditions", () => {
   const renderComponent = () => {
+    //simplify test cases with a helper function to render our component and return common elemnts
     render(<TermsAndConditions />);
     return {
       heading: screen.getByRole("heading"),
